@@ -3,21 +3,52 @@
 #include "sort_algorithms.h"
 #include "benchmark.h"
 
-int main() {
+// Wrapper para MergeSort
+void mergeSortWrapper(int arr[], int size) {
+	mergeSort(arr, 0, size - 1);
+}
+double getAverageTime(std::function<void(int[], int)> sortFunction, int size, int iterations) {
 	std::vector<int> arr;
-	int size = 1000; // Cambia el tamaño según tus pruebas
+	double totalTime = 0;
+	for (int i = 0; i < iterations; ++i) {
+		generateAverageCase(arr, size);  // Generar nuevos datos cada vez
+		totalTime += measureExecutionTime(sortFunction, arr.data(), size);
+	}
+	return totalTime / iterations;
+}
+void runBenchmark(const std::string& algorithmName, std::function<void(int[], int)> sortFunction, int size) {
+	std::vector<int> arr;
 	
-	// Generar el mejor caso
+	// Mejor caso
 	generateBestCase(arr, size);
-	std::cout << "Mejor caso (BubbleSort): " << measureExecutionTime(bubbleSort, arr.data(), size) << " segundos" << std::endl;
+	double bestCaseTime = measureExecutionTime(sortFunction, arr.data(), size);
+	std::cout << "Mejor caso (" << algorithmName << "): " << bestCaseTime << " segundos" << std::endl;
 	
-	// Generar el peor caso
+	// Peor caso
 	generateWorstCase(arr, size);
-	std::cout << "Peor caso (BubbleSort): " << measureExecutionTime(bubbleSort, arr.data(), size) << " segundos" << std::endl;
+	double worstCaseTime = measureExecutionTime(sortFunction, arr.data(), size);
+	std::cout << "Peor caso (" << algorithmName << "): " << worstCaseTime << " segundos" << std::endl;
 	
-	// Generar el caso promedio
+	// Caso promedio
 	generateAverageCase(arr, size);
-	std::cout << "Caso promedio (BubbleSort): " << measureExecutionTime(bubbleSort, arr.data(), size) << " segundos" << std::endl;
+	double avgCaseTime = measureExecutionTime(sortFunction, arr.data(), size);
+	std::cout << "Caso promedio (" << algorithmName << "): " << avgCaseTime << " segundos" << std::endl;
+}
+
+int main() {
+	int size = 10000; 
+	
+	// Benchmark para BubbleSort
+	std::cout << "---- Benchmark para BubbleSort ----" << std::endl;
+	runBenchmark("BubbleSort", bubbleSort, size);
+	
+	// Benchmark para SelectionSort
+	std::cout << "---- Benchmark para SelectionSort ----" << std::endl;
+	runBenchmark("SelectionSort", selectionSort, size);
+	
+	// Benchmark para MergeSort
+	std::cout << "---- Benchmark para MergeSort ----" << std::endl;
+	runBenchmark("MergeSort", mergeSortWrapper, size);
 	
 	return 0;
 }
