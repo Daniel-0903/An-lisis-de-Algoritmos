@@ -2,7 +2,9 @@
 #include <vector>
 #include "sort_algorithms.h"
 #include "benchmark.h"
-
+#include "linked_list.h"
+#include "binary_search_tree.h"
+#include "benchmark_structures.h"
 // Wrapper para MergeSort
 void mergeSortWrapper(int arr[], int size) {
 	mergeSort(arr, 0, size - 1);
@@ -34,9 +36,39 @@ void runBenchmark(const std::string& algorithmName, std::function<void(int[], in
 	double avgCaseTime = measureExecutionTime(sortFunction, arr.data(), size);
 	std::cout << "Caso promedio (" << algorithmName << "): " << avgCaseTime << " segundos" << std::endl;
 }
-
+void runBenchmarkStructures() {
+	LinkedList list;
+	BinarySearchTree bst;
+	
+	int size = 100000;  // Tamaño de datos para las estructuras de datos
+	
+	// Benchmark para LinkedList
+	std::cout << "---- Benchmark para LinkedList ----" << std::endl;
+	double timeInsertList = 0, timeSearchList = 0, timeRemoveList = 0;
+	for (int i = 0; i < size; ++i) {
+		timeInsertList += measureInsertTime(list, i);
+		timeSearchList += measureSearchTime(list, i);
+		timeRemoveList += measureRemoveTime(list, i);
+	}
+	std::cout << "Tiempo promedio de insercion (LinkedList): " << timeInsertList / size << " segundos" << std::endl;
+	std::cout << "Tiempo promedio de busqueda (LinkedList): " << timeSearchList / size << " segundos" << std::endl;
+	std::cout << "Tiempo promedio de eliminacion (LinkedList): " << timeRemoveList / size << " segundos" << std::endl;
+	
+	// Benchmark para BinarySearchTree
+	std::cout << "---- Benchmark para BinarySearchTree ----" << std::endl;
+	double timeInsertBST = 0, timeSearchBST = 0, timeRemoveBST = 0;
+	for (int i = 0; i < size; ++i) {
+		timeInsertBST += measureInsertTime(bst, i);
+		timeSearchBST += measureSearchTime(bst, i);
+		timeRemoveBST += measureRemoveTime(bst, i);
+	}
+	std::cout << "Tiempo promedio de insercion (BinarySearchTree): " << timeInsertBST / size << " segundos" << std::endl;
+	std::cout << "Tiempo promedio de busqueda (BinarySearchTree): " << timeSearchBST / size << " segundos" << std::endl;
+	std::cout << "Tiempo promedio de eliminacion (BinarySearchTree): " << timeRemoveBST / size << " segundos" << std::endl;
+}
 int main() {
 	int size = 10000; 
+	int iterations = 10;  // Número de iteraciones para calcular tiempos promedio
 	
 	// Benchmark para BubbleSort
 	std::cout << "---- Benchmark para BubbleSort ----" << std::endl;
@@ -49,6 +81,7 @@ int main() {
 	// Benchmark para MergeSort
 	std::cout << "---- Benchmark para MergeSort ----" << std::endl;
 	runBenchmark("MergeSort", mergeSortWrapper, size);
+	runBenchmarkStructures();
 	
 	return 0;
 }
