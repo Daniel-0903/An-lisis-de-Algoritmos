@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <gtkmm/application.h>
+#include <gtkmm/window.h>
+#include "graph_area.h"
 #include "sort_algorithms.h"
 #include "benchmark.h"
 #include "linked_list.h"
@@ -82,6 +85,31 @@ int main() {
 	std::cout << "---- Benchmark para MergeSort ----" << std::endl;
 	runBenchmark("MergeSort", mergeSortWrapper, size);
 	runBenchmarkStructures();
+	
+	// Inicializar la aplicación GTK
+	auto app = Gtk::Application::create(argc, argv, "com.example.graph");
+	
+	// Crear ventanas para cada gráfico
+	Gtk::Window bubbleWindow;
+	bubbleWindow.set_default_size(600, 400);
+	GraphArea bubbleGraph(bubbleSortTimes, "BubbleSort - Tiempo vs N");
+	bubbleWindow.add(bubbleGraph);
+	bubbleWindow.show_all();
+	
+	Gtk::Window selectionWindow;
+	selectionWindow.set_default_size(600, 400);
+	GraphArea selectionGraph(selectionSortTimes, "SelectionSort - Tiempo vs N");
+	selectionWindow.add(selectionGraph);
+	
+	Gtk::Window mergeWindow;
+	mergeWindow.set_default_size(600, 400);
+	GraphArea mergeGraph(mergeSortTimes, "MergeSort - Tiempo vs N");
+	mergeWindow.add(mergeGraph);
+	
+	// Lanzar las ventanas en secuencia
+	app->run(bubbleWindow);
+	app->run(selectionWindow);
+	app->run(mergeWindow);
 	
 	return 0;
 }
