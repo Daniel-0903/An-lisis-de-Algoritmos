@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <gtkmm/application.h>
-#include <gtkmm/window.h>
+//#include <gtkmm/application.h>
+//#include <gtkmm/window.h>
 #include "graph_area.h"
 #include "sort_algorithms.h"
 #include "benchmark.h"
@@ -85,7 +85,7 @@ int main() {
 	std::cout << "---- Benchmark para MergeSort ----" << std::endl;
 	runBenchmark("MergeSort", mergeSortWrapper, size);
 	runBenchmarkStructures();
-	
+	/* CAMBIO 9/10
 	// Inicializar la aplicación GTK
 	auto app = Gtk::Application::create(argc, argv, "com.example.graph");
 	
@@ -110,6 +110,6 @@ int main() {
 	app->run(bubbleWindow);
 	app->run(selectionWindow);
 	app->run(mergeWindow);
-	
+	*/
 	return 0;
 }

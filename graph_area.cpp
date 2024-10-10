@@ -1,3 +1,4 @@
+/* CAMBIO 9/10
 #include "graph_area.h"
 #include <gtkmm.h>
 #include <cmath>
@@ -57,3 +58,4 @@ void GraphArea::draw_graph(const Cairo::RefPtr<Cairo::Context>& cr) {
 		cr->fill();
 	}
 }
+*/

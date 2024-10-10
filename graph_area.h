@@ -1,3 +1,4 @@
+/* CAMBIO 9/10
 #ifndef GRAPH_AREA_H
 #define GRAPH_AREA_H
 
@@ -22,3 +23,4 @@ private:
 };
 
 #endif // GRAPH_AREA_H
+*/
